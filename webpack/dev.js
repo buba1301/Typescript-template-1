@@ -8,12 +8,12 @@ const shareable = require('./shareable');
 module.exports = {
   mode: 'development',
   entry: {
-    app: path.resolve('src', 'index.jsx')
+    app: path.resolve('src', 'index.jsx'),
   },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve('dist'),
-    publicPath: '/'
+    publicPath: '/',
   },
   ...shareable,
   devtool: 'eval-cheap-module-source-map',
@@ -21,7 +21,7 @@ module.exports = {
     port: 3000,
     hot: true,
     static: {
-      directory: path.resolve('dist')
+      directory: path.resolve('dist'),
     },
     allowedHosts: 'all',
   },
@@ -31,37 +31,33 @@ module.exports = {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
         options: {
-          cacheDirectory: true
+          cacheDirectory: true,
         },
-        include: /src/
+        include: /src/,
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.styl$/,
+        test: /\.scss$/,
         use: [
           'style-loader',
           {
             loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: '[local]_[hash:base64:5]'
-              }
-            }
+                mode: 'local',
+                localIdentName: '[name]__[local]__[hash:base64:5]',
+                auto: /\.module\.\w+$/i,
+              },
+            },
           },
-          'postcss-loader',
-          {
-            loader: 'stylus-loader',
-            options: {
-              sourceMap: false
-            }
-          }
+          'sass-loader',
         ],
-        include: /src/
-      }
-    ]
+        include: /src/,
+      },
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -71,7 +67,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       chunks: ['app'],
       filename: 'index.html',
-      template: path.resolve('templates', 'index.html')
-    })
-  ]
+      template: path.resolve('templates', 'index.html'),
+    }),
+  ],
 };

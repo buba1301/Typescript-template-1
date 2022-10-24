@@ -19,18 +19,18 @@ const htmlMinify = {
   keepClosingSlash: true,
   minifyJS: true,
   minifyCSS: true,
-  minifyURLs: true
+  minifyURLs: true,
 };
 
 module.exports = {
   mode: 'production',
   entry: {
-    app: path.resolve('src', 'index.jsx')
+    app: path.resolve('src', 'index.jsx'),
   },
   output: {
     filename: 'js/[name]_[contenthash].js',
     path: path.resolve('dist'),
-    publicPath: ''
+    publicPath: '',
   },
   ...shareable,
   devtool: false,
@@ -39,37 +39,33 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         use: 'babel-loader',
-        include: /src/
+        include: /src/,
       },
       {
-        test: /\.styl$/,
+        test: /\.scss$/,
         use: [
           {
             loader: MiniCss.loader,
             options: {
-              esModule: true
-            }
+              esModule: true,
+            },
           },
           {
             loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: '[hash:base64:5]'
-              }
-            }
+                localIdentName: '[hash:base64:5]',
+              },
+            },
           },
-          'postcss-loader',
-          'stylus-loader'
+          'sass-loader',
         ],
-        include: /src/
-      }
-    ]
+        include: /src/,
+      },
+    ],
   },
   optimization: {
-    minimizer: [
-      `...`,
-      new CssMinimizerPlugin()
-    ],
+    minimizer: [`...`, new CssMinimizerPlugin()],
     runtimeChunk: 'single',
     splitChunks: {
       chunks: 'all',
@@ -78,10 +74,10 @@ module.exports = {
           name: 'vendors',
           test: /node_modules/,
           maxSize: 150000,
-          chunks: 'initial'
-        }
-      }
-    }
+          chunks: 'initial',
+        },
+      },
+    },
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -92,12 +88,15 @@ module.exports = {
       chunks: ['app', 'runtime'],
       filename: 'index.html',
       template: path.resolve('templates', 'index.html'),
-      minify: { ...htmlMinify }
+      minify: { ...htmlMinify },
     }),
-    new MiniCss({ filename: 'css/[name]_[contenthash].css', ignoreOrder: true }),
+    new MiniCss({
+      filename: 'css/[name]_[contenthash].css',
+      ignoreOrder: true,
+    }),
     new deadCodePlugin({
       patterns: ['src/**/*.*'],
-      failOnHint: true
-    })
-  ]
+      failOnHint: true,
+    }),
+  ],
 };
