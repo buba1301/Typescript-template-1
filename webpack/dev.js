@@ -36,13 +36,15 @@ module.exports = {
           cacheDirectory: true,
         },
         include: /src/,
+        exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ['babelLoader', 'ts-loader']
       },
       {
-        test: /\.scss$/,
+        test: /\.(c|sa|sc)ss$/i,
         use: [
           'style-loader',
           {
@@ -58,6 +60,30 @@ module.exports = {
           'sass-loader',
         ],
         include: /src/,
+      },
+      {
+        test: /\.md$/i,
+        use: ['html-loader', 'markdown-loader']
+      },
+      {
+        test: /\.svg$/,
+        use: ['@svgr/webpack', 'url-loader'],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
+            },
+          },
+        ],
+      },
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        use: ['url-loader'],
       },
     ],
   },
