@@ -20,10 +20,12 @@ module.exports = {
   devServer: {
     port: 3000,
     hot: true,
+    open: true,
     static: {
       directory: path.resolve('dist'),
     },
     allowedHosts: 'all',
+    compress: true,
   },
   module: {
     rules: [
