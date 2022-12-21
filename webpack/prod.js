@@ -42,7 +42,7 @@ module.exports = {
         include: /src/,
       },
       {
-        test: /\.scss$/,
+        test: /\.(c|sa|sc)ss$/i,,
         use: [
           {
             loader: MiniCss.loader,
@@ -61,6 +61,26 @@ module.exports = {
           'sass-loader',
         ],
         include: /src/,
+      },
+            {
+        test: /\.svg$/,
+        use: ['@svgr/webpack', 'url-loader'],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
+            },
+          },
+        ],
+      },
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        use: ['url-loader'],
       },
     ],
   },
