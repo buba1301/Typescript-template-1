@@ -50,4 +50,15 @@
     "build": "BABEL_ENV=production webpack --node-env=prod",
     "start": "BABEL_ENV=development webpack serve --node-env=dev"
   }
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css}": [
+      "pretty-quick --staged",
+      "eslint ./src"
+    ]
+  }
 }
